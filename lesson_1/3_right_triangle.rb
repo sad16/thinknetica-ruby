@@ -17,7 +17,7 @@ end
 def right?(sides)
   hypotenuse = sides.last
   cathetuses = sides.first(2)
-  hypotenuse ** 2 == cathetuses.first ** 2 + cathetuses.last ** 2
+  hypotenuse**2 == cathetuses.first**2 + cathetuses.last**2
 end
 
 def isosceles?(sides)

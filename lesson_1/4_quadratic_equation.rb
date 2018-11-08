@@ -5,8 +5,8 @@ def find_roots(a, b, c)
     "Корней нет."
   else
     sqrt_d = Math.sqrt(d)
-    x1 = (-b + sqrt_d) / (2 * a)
-    x2 = (-b - sqrt_d) / (2 * a)
+    x1 = (-b + sqrt_d)/(2 * a)
+    x2 = (-b - sqrt_d)/(2 * a)
     x1 == x2 ? "Один корень: #{x1}." : "Два корня: #{x1} и #{x2}."
   end
 
@@ -14,7 +14,7 @@ def find_roots(a, b, c)
 end
 
 def discriminant(a, b, c)
-  (b ** 2) - (4 * a * c)
+  (b**2) - (4 * a * c)
 end
 
 puts "Введите коэффициенты квадратного уравнения через пробел (a, b, c):"
