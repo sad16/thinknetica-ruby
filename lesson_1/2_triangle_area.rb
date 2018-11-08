@@ -1,4 +1,4 @@
-def triangle_area base, height
+def triangle_area(base, height)
   0.5 * base * height
 end
 

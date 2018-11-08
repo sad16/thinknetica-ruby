@@ -1,5 +1,5 @@
-def find_roots a, b, c
-  d = discriminant a, b, c
+def find_roots(a, b, c)
+  d = discriminant(a, b, c)
 
   result = if d < 0
     "Корней нет."
@@ -13,11 +13,11 @@ def find_roots a, b, c
   "#{result} Дискриминант: #{d}"
 end
 
-def discriminant a, b, c
+def discriminant(a, b, c)
   (b ** 2) - (4 * a * c)
 end
 
 puts "Введите коэффициенты квадратного уравнения через пробел (a, b, c):"
 a, b, c = gets.chomp.split(" ").map(&:to_f)
-puts find_roots a, b, c
-    
+
+puts find_roots(a, b, c)
