@@ -33,7 +33,7 @@ class Basket
     puts "Итоговая стоимость корзины: #{sum}"
   end
 
-  private def total_product_cost(cost, count)
+  def total_product_cost(cost, count)
     cost * count
   end
 end
