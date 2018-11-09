@@ -5,19 +5,18 @@ class Basket
     @products = {}
   end
 
-  public def add(name, cost, count)
-    products[name] = {
-      cost: cost,
-      count: count
-    }
+  def add(name, cost, count)
+    products[name] = { cost: cost, count: count }
   end
 
-  public def show
+  def show
     show_products
-    show_sum
+    show_total_cost
   end
 
-  private def show_products
+  private
+
+  def show_products
     puts "Название | Стоимость за единицу товара | Количество | Суммарная стоимость"
     products.each do |name, options|
       cost = options[:cost]
@@ -26,7 +25,7 @@ class Basket
     end
   end
 
-  private def show_sum
+  def show_total_cost
     sum = products.values.reduce(0) do |sum, product|
       sum += total_product_cost(product[:cost], product[:count])
       sum
@@ -42,10 +41,10 @@ end
 basket = Basket.new
 
 loop do
-  puts "Введите через пробел название товара, цену за единицу товара " \
-       "и количество купленного товара (Хлеб 50 2) или введите 'cтоп':"
+  puts "Введите через запятую название товара, цену за единицу товара " \
+       "и количество купленного товара (Хлеб, 50, 2) или введите 'cтоп':"
 
-  name, cost, count = gets.chomp.split(" ")
+  name, cost, count = gets.chomp.split(",").map(&:strip)
 
   break if name.downcase == 'стоп'
 

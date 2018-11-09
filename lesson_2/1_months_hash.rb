@@ -13,4 +13,6 @@ months = {
   "December" => 31
 }
 
-months.each { |name, days_count| puts name if days_count == 30 }
+month_with_30_days = months.map { |name, days_count| name if days_count == 30 }.compact
+
+puts month_with_30_days
