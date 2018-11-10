@@ -1,39 +1,20 @@
 class Station
-  attr_reader :name, :train_list
+  attr_reader :name, :trains
 
   def initialize(name)
     @name = name.capitalize
-    @train_list = []
-    puts "Создана станция #{@name}"
+    @trains = []
   end
 
   def arrival(train)
-    puts "На станцию #{name} прибыл #{train.kind} поезд номер #{train.number}"
-    train_list.push(train)
-    train
+    trains << train
   end
 
   def departure(train)
-    puts "Со станции #{name} убыл #{train.kind} поезд номер #{train.number}"
-    train_list.delete(train)
-    train
+    trains.delete(train)
   end
 
-  def trains(kind = nil)
-    trains =
-      if kind
-        train_list.select { |train| train.kind == kind }
-      else
-        train_list
-      end
-
-    if trains.any?
-      puts "Поезда на станции #{name}:"
-      trains.each { |train| train.info }
-    else
-      puts "В данный момент поездов на станции нет"
-    end
-
-    trains
+  def trains_by_kind(kind)
+    trains.select { |train| train.kind == kind }
   end
 end
