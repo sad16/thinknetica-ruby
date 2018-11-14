@@ -38,12 +38,13 @@ class RailwayInterface
   end
 
   def menu
-    input(
+    output(
       "Выберите объект:\n" \
       "1. Станции\n" \
       "2. Маршруты\n" \
       "3. Поезда\n" \
       "Для завершения работы программы нажмите любую другую клавишу"
-    ).to_i
+    )
+    input.to_i
   end
 end

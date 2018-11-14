@@ -29,14 +29,15 @@ class RouteInterface
   end
 
   def menu
-    input(
+    output(
       "Выберите действие:\n" \
       "1. Показать маршруты\n" \
       "2. Создать маршрут\n" \
       "3. Добавить станцию в маршрут\n" \
       "4. Удалить станцию из маршрута\n" \
       "Для возврата в главное меню нажмите любую другую клавишу"
-    ).to_i
+    )
+    input.to_i
   end
 
   def index
@@ -44,7 +45,7 @@ class RouteInterface
 
     if routes.any?
       output("Маршруты:")
-      routes.each_with_index { |route, index| output("#{index + 1}. #{route.info}") }
+      routes.each.with_index(1) { |route, index| output("#{index}. #{route.info}") }
     else
       output("Маршрутов не создано")
     end
@@ -55,7 +56,8 @@ class RouteInterface
   def create
     output("Создание маршрута")
 
-    from_name = input("Введите название начальной станции:")
+    output("Введите название начальной станции:")
+    from_name = input
     from = railway.find_station(from_name)
     unless from
       output("Станция #{from_name} не существует")
@@ -63,7 +65,8 @@ class RouteInterface
       return
     end
 
-    to_name = input("Введите название конечной станции:")
+    output("Введите название конечной станции:")
+    to_name = input
     to = railway.find_station(to_name)
     unless to
       output("Станция #{to_name} не существует")
@@ -81,17 +84,14 @@ class RouteInterface
   def add_station
     output("Добавление станции в маршрут")
 
-    index
+    route = select_route
 
-    index_selected = input("Выберите маршрут:").to_i
-    route = railway.find_route(index_selected - 1)
-
-    output("Выбран маршрут #{route.info}")
-
-    name = input("Введите станцию:")
+    output("Введите станцию:")
+    name = input
     station = railway.find_station(name)
 
-    point = input("Введите номер остановки:").to_i
+    output("Введите номер остановки:")
+    point = input.to_i
     route.add(point, station)
 
     output("Станция #{station.info} добавлена в маршрут")
@@ -100,20 +100,27 @@ class RouteInterface
   def delete_station
     output("Удаление станции из маршрута")
 
-    index
-
-    index_selected = input("Выберите маршрут:").to_i
-    route = railway.find_route(index_selected - 1)
-
-    output("Выбран маршрут #{route.info}")
+    route = select_route
 
     output("Станции маршрута:")
-    route.stations.each_with_index { |station, index| output("#{index + 1}. #{station.info}") }
+    route.stations.each.with_index(1) { |station, index| output("#{index}. #{station.info}") }
 
-    name = input("Введите станцию:")
+    output("Введите станцию:")
+    name = input
     station = route.stations.detect { |station| station.name == name }
     route.delete(station)
 
     output("Станция #{station.info} удалена из маршрута")
+  end
+
+  private
+
+  def select_route
+    index
+    output("Выберите маршрут:")
+    selected = input.to_i - 1
+    route = railway.find_route(selected)
+    output("Выбран маршрут #{route.info}")
+    route
   end
 end

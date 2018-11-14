@@ -27,13 +27,14 @@ class StationInterface
   end
 
   def menu
-    input(
+    output(
       "Выберите действие:\n" \
       "1. Показать станции\n" \
       "2. Создать станцию\n" \
       "3. Список поездов на станции\n" \
       "Для возврата в главное меню нажмите любую другую клавишу"
-    ).to_i
+    )
+    input.to_i
   end
 
   def index
@@ -41,7 +42,7 @@ class StationInterface
 
     if stations.any?
       output("Станции:")
-      stations.each_with_index { |station, index| output("#{index + 1}. #{station.info}") }
+      stations.each.with_index(1) { |station, index| output("#{index}. #{station.info}") }
     else
       output("Станций не создано")
     end
@@ -51,7 +52,8 @@ class StationInterface
   def create
     output("Создание станции")
 
-    name = input("Введите название:")
+    output("Введите название:")
+    name = input
     station = railway.create_station(name)
 
     output("Станция #{station.info} создана")
@@ -62,13 +64,14 @@ class StationInterface
   def station_trains
     output("Список поездов на станции")
 
-    name = input("Введите название:")
+    output("Введите название:")
+    name = input
     station = railway.find_station(name)
 
     if station
       if station.trains.any?
         output("Поезда на станции #{station.info}:")
-        station.trains.each_with_index { |train, index| output("#{index + 1}. #{train.info}") }
+        station.trains.each.with_index(1) { |train, index| output("#{index}. #{train.info}") }
       else
         output("Поездов на станции #{station.info} нет")
       end

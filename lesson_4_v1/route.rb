@@ -20,7 +20,7 @@ class Route
   def add(point, station)
     point -= 1
 
-    if beetwen?(point)
+    if between?(point)
       stations.insert(point, station)
     else
       { error: "В маршрут можно добавлять только промежуточные станции" }
@@ -37,8 +37,8 @@ class Route
 
   private
 
-  def beetwen?(point)
-    (point > 0) && (point < stations.size)
+  def between?(point)
+    point.between?(0, stations.size)
   end
 
   def from?(station)

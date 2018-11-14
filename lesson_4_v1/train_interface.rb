@@ -33,7 +33,7 @@ class TrainInterface
   end
 
   def menu
-    input(
+    output(
       "Выберите действие:\n" \
       "1. Показать поезда\n" \
       "2. Создать поезд\n" \
@@ -42,7 +42,8 @@ class TrainInterface
       "5. Назначить маршрут\n" \
       "6. Управлять\n" \
       "Для возврата в главное меню нажмите любую другую клавишу"
-    ).to_i
+    )
+    input.to_i
   end
 
   def index
@@ -50,7 +51,7 @@ class TrainInterface
 
     if trains.any?
       output("Поезда:")
-      trains.each_with_index { |train, index| output("#{index + 1}. #{train.info}") }
+      trains.each.with_index(1) { |train, index| output("#{index}. #{train.info}") }
     else
       output("Поездов не создано")
     end
@@ -61,14 +62,17 @@ class TrainInterface
   def create
     output("Создание поезда")
 
-    number = input("Введите номер поезда:")
-    kind = input(
+    output("Введите номер поезда:")
+    number = input
+
+    output(
       "Выберите тип поезда:\n" \
       "1. Пассажирский\n" \
       "2. Грузовой"
-    ).to_i
+    )
+    kind = input.to_i - 1
 
-    train = railway.create_train(number, kind - 1)
+    train = railway.create_train(number, kind)
 
     output("Поезд #{train.info} создан")
 
@@ -78,10 +82,9 @@ class TrainInterface
   def add_wagons
     output("Прицепление вагона к поеду")
 
-    number = input("Введите номер поезда")
-    train = railway.find_train(number)
+    train = find_train_by_number
 
-    wagon = 
+    wagon =
       if train.is_a?(PassengerTrain)
         PassengerWagon.new
       else
@@ -96,8 +99,7 @@ class TrainInterface
   def delete_wagons
     output("Отцепление вагона от поеда")
 
-    number = input("Введите номер поезда")
-    train = railway.find_train(number)
+    train = find_train_by_number
 
     train.delete_wagon
 
@@ -107,12 +109,13 @@ class TrainInterface
   def set_route
     output("Назначение маршрута поезду")
 
-    number = input("Введите номер поезда")
-    train = railway.find_train(number)
+    train = find_train_by_number
 
-    railway.routes.each_with_index { |route, index| output("#{index + 1}. #{route.info}") }
-    index_selected = input("Выберите маршрут:").to_i
-    route = railway.find_route(index_selected - 1)
+    railway.routes.each.with_index(1) { |route, index| output("#{index}. #{route.info}") }
+
+    output("Выберите маршрут:")
+    selected = input.to_i - 1
+    route = railway.find_route(selected)
 
     train.set_route(route)
 
@@ -122,13 +125,13 @@ class TrainInterface
   def drive
     output("Управление поездом")
 
-    number = input("Введите номер поезда")
-    train = railway.find_train(number)
+    train = find_train_by_number
 
-    selected = input(
+    output(
       "1. На следующую станцию\n" \
       "2. На предыдущую станцию"
-    ).to_i
+    )
+    selected = input.to_i
 
     case selected
     when 1
@@ -140,5 +143,13 @@ class TrainInterface
     end
 
     output("Текущая станция поезда #{train.current_station.info}")
+  end
+
+  private
+
+  def find_train_by_number
+    output("Введите номер поезда:")
+    number = input
+    railway.find_train(number)
   end
 end

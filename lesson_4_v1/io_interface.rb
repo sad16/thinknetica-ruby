@@ -3,13 +3,12 @@ module IOInterface
     puts message
   end
 
-  def input(message)
-    output(message)
+  def input
     gets.chomp
   end
 
   def delay
     output("Для продолжения нажмите enter")
-    gets
+    input
   end
 end
