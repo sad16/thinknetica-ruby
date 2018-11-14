@@ -5,6 +5,10 @@ class Route
     @stations = [from, to]
   end
 
+  def info
+    "#{from.name} - #{to.name}"
+  end
+
   def from
     stations.first
   end

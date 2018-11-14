@@ -7,6 +7,10 @@ class Train
     @wagons = []
   end
 
+  def info
+    "#{number} | Маршрут #{route ? route.info : 'не назначен'}"
+  end
+
   def current_speed
     speed
   end
@@ -25,7 +29,7 @@ class Train
   end
 
   def stop?
-    speed.zero?
+    current_speed.zero?
   end
 
   def add_wagon(wagon)
@@ -75,6 +79,6 @@ class Train
 
   protected
   # эти методы должны быть доступны в дочерних классах
-  attr_writer :speed, :wagons, :route, :current_station
-
+  attr_accessor :speed
+  attr_writer :wagons, :route, :current_station
 end

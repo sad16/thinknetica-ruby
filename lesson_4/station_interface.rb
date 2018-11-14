@@ -1,7 +1,7 @@
-require_relative 'ui'
+require_relative 'io_interface'
 
 class StationInterface
-  include UI
+  include IOInterface
 
   attr_reader :railway
 
@@ -18,7 +18,7 @@ class StationInterface
         when 2
           :create
         when 3
-          :delete
+          :station_trains
         end
 
       break unless action
@@ -26,20 +26,19 @@ class StationInterface
     end
   end
 
-  private
-
   def menu
     input(
       "Выберите действие:\n" \
       "1. Показать станции\n" \
       "2. Создать станцию\n" \
-      "3. Удалить станцию\n" \
+      "3. Список поездов на станции\n" \
       "Для возврата в главное меню нажмите любую другую клавишу"
     ).to_i
   end
 
   def index
     stations = railway.stations
+
     if stations.any?
       output("Станции:")
       stations.each_with_index { |station, index| output("#{index + 1}. #{station.info}") }
@@ -51,22 +50,32 @@ class StationInterface
 
   def create
     output("Создание станции")
+
     name = input("Введите название:")
-    station = Station.new(name)
-    railway.stations << station
+    station = railway.create_station(name)
+
     output("Станция #{station.info} создана")
+
     delay
   end
 
-  def delete
-    output("Удаление станции")
+  def station_trains
+    output("Список поездов на станции")
+
     name = input("Введите название:")
-    station = railway.stations.detect{ |station| station.name == name }
-    if railway.stations.delete(station)
-      output("Станция #{station.info} удалена")
+    station = railway.find_station(name)
+
+    if station
+      if station.trains.any?
+        output("Поезда на станции #{station.info}:")
+        station.trains.each_with_index { |train, index| output("#{index + 1}. #{train.info}") }
+      else
+        output("Поездов на станции #{station.info} нет")
+      end
     else
       output("Станция #{name} не существует")
     end
+
     delay
   end
 end

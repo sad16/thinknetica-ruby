@@ -1,4 +1,4 @@
-module UI
+module IOInterface
   def output(message)
     puts message
   end

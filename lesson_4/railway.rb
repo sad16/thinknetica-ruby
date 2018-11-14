@@ -1,10 +1,10 @@
 class Railway
-  attr_reader :stations, :trains, :routes
+  attr_reader :stations, :routes, :trains
 
   def initialize
     @stations = []
-    @trains = []
     @routes = []
+    @trains = []
   end
 
   def create_station(name)
@@ -13,30 +13,12 @@ class Railway
     station
   end
 
-  def find_station(index)
-    stations[index]
-  end
-
-  def add_station(route, station)
-
-  end
-
-  def delete_station(route, station)
-
-  end
-
-  def create_train(number, kind)
-    train = "#{train_kinds[kind].capitalize}".constantize.new(number)
-    self.trains << train
-    train
-  end
-
-  def find_train(index)
-    trains[index]
+  def find_station(name)
+    stations.detect { |station| station.name == name }
   end
 
   def create_route(from, to)
-    route = Routes.new(from, to)
+    route = Route.new(from, to)
     self.routes << route
     route
   end
@@ -45,23 +27,22 @@ class Railway
     routes[index]
   end
 
-  def set_route(route, train)
-
+  def create_train(number, kind)
+    train = 
+      if kind.zero?
+        PassengerTrain.new(number)
+      else
+        CargoTrain.new(number)
+      end
+    self.trains << train
+    train
   end
 
-  def add_wagons(train, wagons_count)
-
-  end
-
-  def delete_wagons(train, wagons_count)
-
+  def find_train(number)
+    trains.detect { |train| train.number == number }
   end
 
   private
 
-  attr_writer :stations, :trains, :routes
-
-  def train_kinds
-    ['passenger', 'cargo']
-  end
+  attr_writer :stations, :routes, :trains
 end
