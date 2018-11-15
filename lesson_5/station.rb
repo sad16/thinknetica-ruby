@@ -1,9 +1,18 @@
+require_relative 'modules/instance_counter'
+
 class Station
+  include InstanceCounter
+
   attr_reader :name, :trains
 
   def initialize(name)
     @name = name.capitalize
     @trains = []
+    register_instance
+  end
+
+  def self.all
+    ObjectSpace.each_object(self).to_a
   end
 
   def info

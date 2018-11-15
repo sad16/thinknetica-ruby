@@ -1,10 +1,21 @@
+require_relative 'modules/instance_counter'
+require_relative 'modules/company'
+
 class Train
+  include InstanceCounter
+  include Company
+
   attr_reader :number, :wagons, :route, :current_station
 
   def initialize(number)
     @number = number.upcase
     @speed = 0
     @wagons = []
+    register_instance
+  end
+
+  def self.find(number)
+    ObjectSpace.each_object(self).to_a.detect { |train| train.number == number }
   end
 
   def info
