@@ -15,7 +15,7 @@ class Train
   end
 
   def self.find(number)
-    ObjectSpace.each_object(self).to_a.detect { |train| train.number == number }
+    instances.detect { |train| train.number == number }
   end
 
   def info
