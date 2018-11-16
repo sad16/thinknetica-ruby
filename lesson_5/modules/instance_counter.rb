@@ -27,20 +27,30 @@ module InstanceCounter
   end
 
   module ClassMethods
+    attr_writer :instances
+
     def instances
-      @instances ||= []
+      @instances ||= 0
     end
 
-    def instances_count
-      instances.count
-    end
+    # def instances
+    #   @instances ||= []
+    # end
+
+    # def instances_count
+    #   instances.count
+    # end
   end
 
   module InstanceMethods
     protected
 
     def register_instance
-      self.class.instances << self
+      self.class.instances += 1
     end
+
+    # def register_instance
+    #   self.class.instances << self
+    # end
   end
 end

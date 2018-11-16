@@ -11,11 +11,16 @@ class Train
     @number = number.upcase
     @speed = 0
     @wagons = []
+    @@all[@number] = self
     register_instance
   end
 
-  def self.find(number)
-    instances.detect { |train| train.number == number }
+  @@all = {}
+
+  class << self
+    def find(number)
+      @@all[number]
+    end
   end
 
   def info
