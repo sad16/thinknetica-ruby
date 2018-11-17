@@ -2,7 +2,7 @@ require_relative 'modules/instance_counter'
 
 class Route
   include InstanceCounter
-  
+
   attr_reader :stations
 
   def initialize(from, to)
@@ -28,7 +28,7 @@ class Route
     if between?(point)
       stations.insert(point, station)
     else
-      { error: "В маршрут можно добавлять только промежуточные станции" }
+      raise "В маршрут можно добавлять только промежуточные станции"
     end
   end
 
@@ -36,7 +36,7 @@ class Route
     unless from?(station) || to?(station)
       stations.delete(station)
     else
-      { error: "Из маршрута можно убирать только промежуточные станции" }
+      raise "Из маршрута можно убирать только промежуточные станции"
     end
   end
 

@@ -62,19 +62,25 @@ class TrainInterface
   def create
     output("Создание поезда")
 
-    output("Введите номер поезда:")
-    number = input
+    loop do
+      output("Введите номер поезда:")
+      number = input
 
-    output(
-      "Выберите тип поезда:\n" \
-      "1. Пассажирский\n" \
-      "2. Грузовой"
-    )
-    kind = input.to_i - 1
+      output(
+        "Выберите тип поезда:\n" \
+        "1. Пассажирский\n" \
+        "2. Грузовой"
+      )
+      kind = input.to_i - 1
 
-    train = railway.create_train(number, kind)
-
-    output("Поезд #{train.info} создан")
+      begin
+        train = railway.create_train(number, kind)
+        output("Поезд #{train.info} создан")
+        break
+      rescue RuntimeError => e
+        output("Ошибка при создании поезда: #{e.message}")
+      end
+    end
 
     delay
   end

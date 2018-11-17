@@ -6,13 +6,24 @@ class Station
   attr_reader :name, :trains
 
   def initialize(name)
-    @name = name.capitalize
+    @name = name && name.capitalize
+    validate!
     @trains = []
+    @@all << self
     register_instance
   end
 
+  @@all = []
+
   def self.all
-    instances
+    @@all
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
   end
 
   def info
@@ -29,5 +40,12 @@ class Station
 
   def trains_by_kind(kind)
     trains.select { |train| train.is_a?(kind) }
+  end
+
+  private
+
+  def validate!
+    raise "Название не может быть пустым" if name.nil?
+    raise "Название должно содержать минимум 4 символа" if name.size < 4
   end
 end

@@ -8,7 +8,8 @@ class Train
   attr_reader :number, :wagons, :route, :current_station
 
   def initialize(number)
-    @number = number.upcase
+    @number = number && number.upcase
+    validate!
     @speed = 0
     @wagons = []
     @@all[@number] = self
@@ -21,6 +22,13 @@ class Train
     def find(number)
       @@all[number]
     end
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
   end
 
   def info
@@ -97,4 +105,13 @@ class Train
   # эти методы должны быть доступны в дочерних классах
   attr_accessor :speed
   attr_writer :wagons, :route, :current_station
+
+  def validate!
+    raise "Номер не может быть пустым" if number.nil?
+    raise "Номер имеет не правильный формат" if number !~ number_pattern
+  end
+
+  def number_pattern
+    /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
+  end
 end
