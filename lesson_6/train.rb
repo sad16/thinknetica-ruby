@@ -1,9 +1,13 @@
 require_relative 'modules/instance_counter'
 require_relative 'modules/company'
+require_relative 'modules/validation'
 
 class Train
   include InstanceCounter
   include Company
+  include Validation
+
+  NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
 
   attr_reader :number, :wagons, :route, :current_station
 
@@ -22,13 +26,6 @@ class Train
     def find(number)
       @@all[number]
     end
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def info
@@ -108,10 +105,6 @@ class Train
 
   def validate!
     raise "Номер не может быть пустым" if number.nil?
-    raise "Номер имеет не правильный формат" if number !~ number_pattern
-  end
-
-  def number_pattern
-    /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
+    raise "Номер имеет не правильный формат" if number !~ NUMBER_PATTERN
   end
 end

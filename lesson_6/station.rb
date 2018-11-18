@@ -1,7 +1,9 @@
 require_relative 'modules/instance_counter'
+require_relative 'modules/validation'
 
 class Station
   include InstanceCounter
+  include Validation
 
   attr_reader :name, :trains
 
@@ -17,13 +19,6 @@ class Station
 
   def self.all
     @@all
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def info
@@ -42,7 +37,7 @@ class Station
     trains.select { |train| train.is_a?(kind) }
   end
 
-  private
+  protected
 
   def validate!
     raise "Название не может быть пустым" if name.nil?
