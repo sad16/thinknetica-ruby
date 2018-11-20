@@ -37,6 +37,10 @@ class Station
     trains.select { |train| train.is_a?(kind) }
   end
 
+  def each_trains(&block)
+    trains.each { |train| block.call(train) }
+  end
+
   protected
 
   def validate!

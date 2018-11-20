@@ -98,6 +98,10 @@ class Train
     end
   end
 
+  def each_wagons(&block)
+    wagons.each { |wagon| block.call(wagon) }
+  end
+
   protected
   # эти методы должны быть доступны в дочерних классах
   attr_accessor :speed
