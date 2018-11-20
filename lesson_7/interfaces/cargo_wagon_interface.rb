@@ -38,8 +38,15 @@ class CargoWagonInterface
   end
 
   def index
-    output("Грузовые вагоны:")
-    railway.cargo_wagons.each { |cargo_wagon| puts cargo_wagon.info }
+    cargo_wagons = railway.cargo_wagons
+
+    if cargo_wagons.any?
+      output("Грузовые вагоны:")
+      cargo_wagons.each { |cargo_wagon| puts cargo_wagon.info }
+    else
+      output("Грузовых вагонов не создано")
+    end
+
     delay
   end
 

@@ -15,6 +15,8 @@ class Railway
     @wagons = []
   end
 
+  # stations
+
   def create_station(name)
     station = Station.new(name)
     self.stations << station
@@ -24,6 +26,8 @@ class Railway
   def find_station(name)
     stations.detect { |station| station.name == name }
   end
+
+  # routes
 
   def create_route(from, to)
     route = Route.new(from, to)
@@ -35,19 +39,34 @@ class Railway
     routes[index]
   end
 
-  def create_train(number, kind)
-    train =
-      if kind.zero?
-        PassengerTrain.new(number)
-      else
-        CargoTrain.new(number)
-      end
-    self.trains << train
-    train
+  # trains
+
+  def create_passenger_train(number)
+    passenger_train = PassengerTrain.new(number)
+    self.trains << passenger_train
+    passenger_train
   end
 
-  def find_train(number)
-    trains.detect { |train| train.number == number }
+  def create_cargo_train(number)
+    cargo_train = CargoTrain.new(number)
+    self.trains << cargo_train
+    cargo_train
+  end
+
+  def passenger_trains
+    trains.select { |train| train.is_a?(PassengerTrain) }
+  end
+
+  def cargo_trains
+    trains.select { |train| train.is_a?(CargoTrain) }
+  end
+
+  def find_passenger_train(number)
+    passenger_trains.detect { |train| train.number == number }
+  end
+
+  def find_cargo_train(number)
+    cargo_trains.detect { |train| train.number == number }
   end
 
   # wagons

@@ -38,13 +38,13 @@ class Station
   end
 
   def each_trains(&block)
-    trains.each { |train| block.call(train) }
+    trains.each.with_index(1) { |train, index| block.call(train, index) }
   end
 
   protected
 
   def validate!
-    raise "Название не может быть пустым" if name.nil?
+    raise "Название не может быть пустым" if name.empty?
     raise "Название должно содержать минимум 4 символа" if name.size < 4
   end
 end

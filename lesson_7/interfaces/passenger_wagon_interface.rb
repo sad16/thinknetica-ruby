@@ -38,8 +38,15 @@ class PassengerWagonInterface
   end
 
   def index
-    output("Пассажирские вагоны:")
-    railway.passenger_wagons.each { |passenger_wagon| puts passenger_wagon.info }
+    passenger_wagons = railway.passenger_wagons
+
+    if passenger_wagons.any?
+      output("Пассажирские вагоны:")
+      passenger_wagons.each { |passenger_wagon| puts passenger_wagon.info }
+    else
+      output("Пассажирских вагонов не создано")
+    end
+
     delay
   end
 

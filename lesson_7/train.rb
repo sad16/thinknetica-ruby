@@ -9,7 +9,7 @@ class Train
 
   NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
 
-  attr_reader :number, :wagons, :route, :current_station
+  attr_reader :number, :kind, :wagons, :route, :current_station
 
   def initialize(number)
     @number = number && number.upcase
@@ -29,7 +29,7 @@ class Train
   end
 
   def info
-    "#{number} | Маршрут #{route ? route.info : 'не назначен'}"
+    "#{number} | #{kind} | Количество вагонов: #{wagons.count}"
   end
 
   def current_speed
@@ -99,16 +99,16 @@ class Train
   end
 
   def each_wagons(&block)
-    wagons.each { |wagon| block.call(wagon) }
+    wagons.each.with_index(1) { |wagon, index| block.call(wagon, index) }
   end
 
   protected
-  # эти методы должны быть доступны в дочерних классах
+
   attr_accessor :speed
   attr_writer :wagons, :route, :current_station
 
   def validate!
-    raise "Номер не может быть пустым" if number.nil?
+    raise "Номер не может быть пустым" if number.empty?
     raise "Номер имеет не правильный формат" if number !~ NUMBER_PATTERN
   end
 end

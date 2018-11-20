@@ -54,9 +54,13 @@ class StationInterface
 
     output("Введите название:")
     name = input
-    station = railway.create_station(name)
 
-    output("Станция #{station.info} создана")
+    begin
+      station = railway.create_station(name)
+      output("Станция #{station.info} создана")
+    rescue RuntimeError => error
+      output("Ошибка: #{error.message}")
+    end
 
     delay
   end
@@ -71,7 +75,7 @@ class StationInterface
     if station
       if station.trains.any?
         output("Поезда на станции #{station.info}:")
-        station.trains.each.with_index(1) { |train, index| output("#{index}. #{train.info}") }
+        station.each_trains { |train, index| output("#{index}. #{train.info}") }
       else
         output("Поездов на станции #{station.info} нет")
       end
