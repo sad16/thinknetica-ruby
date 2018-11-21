@@ -38,7 +38,7 @@ class Station
   end
 
   def each_trains(&block)
-    trains.each.with_index(1) { |train, index| block.call(train, index) }
+    trains.each.with_index(1) { |train, index| yield block(train, index) }
   end
 
   protected
