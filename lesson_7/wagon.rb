@@ -5,7 +5,7 @@ class Wagon
   include Company
   include Validation
 
-  attr_reader :number, :kind
+  attr_reader :number
 
   def initialize(number)
     @number = number

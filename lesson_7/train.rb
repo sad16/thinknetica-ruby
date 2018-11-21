@@ -9,7 +9,7 @@ class Train
 
   NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
 
-  attr_reader :number, :kind, :wagons, :route, :current_station
+  attr_reader :number, :wagons, :route, :current_station
 
   def initialize(number)
     @number = number && number.upcase
@@ -29,7 +29,7 @@ class Train
   end
 
   def info
-    "#{number} | #{kind} | Количество вагонов: #{wagons.count}"
+    "#{number} | #{self.instance_of?(PassengerTrain) ? 'пассажирский' : 'грузовой'} | Количество вагонов: #{wagons.count}"
   end
 
   def current_speed
@@ -99,7 +99,7 @@ class Train
   end
 
   def each_wagons(&block)
-    wagons.each.with_index(1) { |wagon, index| block.call(wagon, index) }
+    wagons.each.with_index(1) { |wagon, index| yield block(wagon, index) }
   end
 
   protected
