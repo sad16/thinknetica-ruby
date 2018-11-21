@@ -5,14 +5,13 @@ class PassengerWagon < Wagon
 
   def initialize(number, seats)
     super(number)
-    @kind = "пассажирский"
     @seats = seats && seats.to_i
     @busy_seats = 0
     validate!
   end
 
   def info
-    "#{number} | #{kind} | Количество свободных мест: #{free_seats} | Количество занятых мест: #{busy_seats}"
+    "#{number} | пассажирский | Количество свободных мест: #{free_seats} | Количество занятых мест: #{busy_seats}"
   end
 
   def busy_seat

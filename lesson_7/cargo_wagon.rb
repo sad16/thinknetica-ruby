@@ -5,14 +5,13 @@ class CargoWagon < Wagon
 
   def initialize(number, volume)
     super(number)
-    @kind = "грузовой"
     @volume = volume && volume.to_f
     @occupied_volume = 0.0
     validate!
   end
 
   def info
-    "#{number} | #{kind} | Свободный объем: #{free_volume} | Занятый объем: #{occupied_volume}"
+    "#{number} | грузовой | Свободный объем: #{free_volume} | Занятый объем: #{occupied_volume}"
   end
 
   def occupy(volume)
