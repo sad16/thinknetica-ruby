@@ -13,15 +13,13 @@ class StationInterface
     loop do
       action =
         case menu
-        when 1
-          :index
-        when 2
-          :create
-        when 3
-          :station_trains
+        when 1 then :index
+        when 2 then :create
+        when 3 then :station_trains
         end
 
       break unless action
+
       send(action)
     end
   end
@@ -72,15 +70,13 @@ class StationInterface
     name = input
     station = railway.find_station(name)
 
-    if station
-      if station.trains.any?
-        output("Поезда на станции #{station.info}:")
-        station.each_trains { |train, index| output("#{index}. #{train.info}") }
-      else
-        output("Поездов на станции #{station.info} нет")
-      end
+    output("Станция #{name} не существует") unless station
+
+    if station && station.trains.any?
+      output("Поезда на станции #{station.info}:")
+      station.each_trains { |train, index| output("#{index}. #{train.info}") }
     else
-      output("Станция #{name} не существует")
+      output("Поездов на станции #{station.info} нет")
     end
 
     delay

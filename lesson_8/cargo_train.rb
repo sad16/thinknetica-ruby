@@ -7,6 +7,7 @@ class CargoTrain < Train
 
   def add_wagon(wagon)
     return unless wagon.instance_of?(CargoWagon)
+
     super
   end
 end

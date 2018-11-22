@@ -24,20 +24,15 @@ class Route
 
   def add(point, station)
     point -= 1
+    raise "В маршрут можно добавлять только промежуточные станции" unless between?(point)
 
-    if between?(point)
-      stations.insert(point, station)
-    else
-      raise "В маршрут можно добавлять только промежуточные станции"
-    end
+    stations.insert(point, station)
   end
 
   def delete(station)
-    unless from?(station) || to?(station)
-      stations.delete(station)
-    else
-      raise "Из маршрута можно убирать только промежуточные станции"
-    end
+    raise "Из маршрута можно убирать только промежуточные станции" if from?(station) || to?(station)
+
+    stations.delete(station)
   end
 
   private

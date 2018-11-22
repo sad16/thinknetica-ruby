@@ -7,7 +7,7 @@ class Train
   include Company
   include Validation
 
-  NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i
+  NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i.freeze
 
   attr_reader :number, :wagons, :route, :current_station
 
@@ -16,20 +16,23 @@ class Train
     validate!
     @speed = 0
     @wagons = []
-    @@all[@number] = self
+    self.class.all[@number] = self
     register_instance
   end
 
-  @@all = {}
-
   class << self
+    def all
+      @all ||= {}
+    end
+
     def find(number)
-      @@all[number]
+      all[number]
     end
   end
 
   def info
-    "#{number} | #{self.instance_of?(PassengerTrain) ? 'пассажирский' : 'грузовой'} | Количество вагонов: #{wagons.count}"
+    "#{number} | #{instance_of?(PassengerTrain) ? 'пассажирский' : 'грузовой'} | " \
+    "Количество вагонов: #{wagons.count}"
   end
 
   def current_speed
@@ -54,14 +57,14 @@ class Train
   end
 
   def add_wagon(wagon)
-    self.wagons << wagon if stop?
+    wagons << wagon if stop?
   end
 
   def delete_wagon
-    self.wagons.pop if stop? && wagons.any?
+    wagons.pop if stop? && wagons.any?
   end
 
-  def set_route(route)
+  def appoint_route(route)
     self.route = route
     self.current_station = route.from
     current_station.arrival(self)
@@ -83,23 +86,23 @@ class Train
   end
 
   def go_next_station
-    if next_station
-      current_station.departure(self)
-      self.current_station = next_station
-      current_station.arrival(self)
-    end
+    return unless next_station
+
+    current_station.departure(self)
+    self.current_station = next_station
+    current_station.arrival(self)
   end
 
   def go_prev_station
-    if prev_station
-      current_station.departure(self)
-      self.current_station = prev_station
-      current_station.arrival(self)
-    end
+    return unless prev_station
+
+    current_station.departure(self)
+    self.current_station = prev_station
+    current_station.arrival(self)
   end
 
-  def each_wagons(&block)
-    wagons.each.with_index(1) { |wagon, index| yield block(wagon, index) }
+  def each_wagons
+    wagons.each.with_index(1) { |wagon, index| yield(wagon, index) }
   end
 
   protected

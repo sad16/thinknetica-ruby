@@ -13,17 +13,14 @@ class RouteInterface
     loop do
       action =
         case menu
-        when 1
-          :index
-        when 2
-          :create
-        when 3
-          :add_station
-        when 4
-          :delete_station
+        when 1 then :index
+        when 2 then :create
+        when 3 then :add_station
+        when 4 then :delete_station
         end
 
       break unless action
+
       send(action)
     end
   end

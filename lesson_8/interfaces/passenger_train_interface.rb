@@ -13,23 +13,17 @@ class PassengerTrainInterface
     loop do
       action =
         case menu
-        when 1
-          :index
-        when 2
-          :create
-        when 3
-          :wagons
-        when 4
-          :add_wagons
-        when 5
-          :delete_wagons
-        when 6
-          :set_route
-        when 7
-          :drive
+        when 1 then :index
+        when 2 then :create
+        when 3 then :wagons
+        when 4 then :add_wagons
+        when 5 then :delete_wagons
+        when 6 then :appoint_route
+        when 7 then :drive
         end
 
       break unless action
+
       send(action)
     end
   end
@@ -107,7 +101,7 @@ class PassengerTrainInterface
     output("Вагон отцеплен")
   end
 
-  def set_route
+  def appoint_route
     output("Назначение маршрута поезду")
 
     passenger_train = find_passenger_train_by_number
@@ -118,7 +112,7 @@ class PassengerTrainInterface
     selected = input.to_i - 1
     route = railway.find_route(selected)
 
-    passenger_train.set_route(route)
+    passenger_train.appoint_route(route)
 
     output("Маршрут назначен")
   end

@@ -13,15 +13,13 @@ class CargoWagonInterface
     loop do
       action =
         case menu
-        when 1
-          :index
-        when 2
-          :create
-        when 3
-          :occupy
+        when 1 then :index
+        when 2 then :create
+        when 3 then :occupy
         end
 
       break unless action
+
       send(action)
     end
   end

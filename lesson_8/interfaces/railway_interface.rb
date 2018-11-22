@@ -23,17 +23,14 @@ class RailwayInterface
     loop do
       object_interface =
         case menu
-        when 1
-          station_interface
-        when 2
-          route_interface
-        when 3
-          train_interface
-        when 4
-          wagon_interface
+        when 1 then station_interface
+        when 2 then route_interface
+        when 3 then train_interface
+        when 4 then wagon_interface
         end
 
       break unless object_interface
+
       object_interface.start
     end
 

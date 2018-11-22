@@ -13,15 +13,13 @@ class PassengerWagonInterface
     loop do
       action =
         case menu
-        when 1
-          :index
-        when 2
-          :create
-        when 3
-          :busy_seat
+        when 1 then :index
+        when 2 then :create
+        when 3 then :busy_seat
         end
 
       break unless action
+
       send(action)
     end
   end

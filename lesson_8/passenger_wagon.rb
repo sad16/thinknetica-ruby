@@ -11,15 +11,14 @@ class PassengerWagon < Wagon
   end
 
   def info
-    "#{number} | пассажирский | Количество свободных мест: #{free_seats} | Количество занятых мест: #{busy_seats}"
+    "#{number} | пассажирский | Количество свободных мест: #{free_seats} | " \
+    "Количество занятых мест: #{busy_seats}"
   end
 
   def busy_seat
-    if free_seats?
-      self.busy_seats += 1
-    else
-      raise "Все места заняты"
-    end
+    raise "Все места заняты" unless free_seats?
+
+    self.busy_seats += 1
   end
 
   def free_seats

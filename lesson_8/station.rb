@@ -11,14 +11,14 @@ class Station
     @name = name && name.capitalize
     validate!
     @trains = []
-    @@all << self
+    self.class.all << self
     register_instance
   end
 
-  @@all = []
-
-  def self.all
-    @@all
+  class << self
+    def all
+      @all ||= []
+    end
   end
 
   def info
@@ -34,11 +34,11 @@ class Station
   end
 
   def trains_by_kind(kind)
-    trains.select { |train| train.is_a?(kind) }
+    trains.select { |train| train.instance_of?(kind) }
   end
 
-  def each_trains(&block)
-    trains.each.with_index(1) { |train, index| yield block(train, index) }
+  def each_trains
+    trains.each.with_index(1) { |train, index| yield(train, index) }
   end
 
   protected

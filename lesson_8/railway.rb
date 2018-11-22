@@ -19,7 +19,7 @@ class Railway
 
   def create_station(name)
     station = Station.new(name)
-    self.stations << station
+    stations << station
     station
   end
 
@@ -31,7 +31,7 @@ class Railway
 
   def create_route(from, to)
     route = Route.new(from, to)
-    self.routes << route
+    routes << route
     route
   end
 
@@ -43,13 +43,13 @@ class Railway
 
   def create_passenger_train(number)
     passenger_train = PassengerTrain.new(number)
-    self.trains << passenger_train
+    trains << passenger_train
     passenger_train
   end
 
   def create_cargo_train(number)
     cargo_train = CargoTrain.new(number)
-    self.trains << cargo_train
+    trains << cargo_train
     cargo_train
   end
 
@@ -73,13 +73,13 @@ class Railway
 
   def create_passenger_wagon(number, seats)
     passenger_wagon = PassengerWagon.new(number, seats)
-    self.wagons << passenger_wagon
+    wagons << passenger_wagon
     passenger_wagon
   end
 
   def create_cargo_wagon(number, volume)
     cargo_wagon = CargoWagon.new(number, volume)
-    self.wagons << cargo_wagon
+    wagons << cargo_wagon
     cargo_wagon
   end
 

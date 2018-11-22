@@ -17,13 +17,12 @@ class TrainInterface
     loop do
       train_interface =
         case menu
-        when 1
-          passenger_train_interface
-        when 2
-          cargo_train_interface
+        when 1 then passenger_train_interface
+        when 2 then cargo_train_interface
         end
 
       break unless train_interface
+
       train_interface.start
     end
   end

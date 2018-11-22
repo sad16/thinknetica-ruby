@@ -15,18 +15,16 @@ class CargoWagon < Wagon
   end
 
   def occupy(volume)
-    if has_free_volume?(volume)
-      self.occupied_volume += volume
-    else
-      raise "Недостаточно свободного объема"
-    end
+    raise "Недостаточно свободного объема" unless free_volume?(volume)
+
+    self.occupied_volume += volume
   end
 
   def free_volume
     volume - occupied_volume
   end
 
-  def has_free_volume?(volume)
+  def free_volume?(volume)
     free_volume >= volume
   end
 
