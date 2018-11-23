@@ -104,7 +104,7 @@ class RouteInterface
 
     output("Введите станцию:")
     name = input
-    station = route.stations.detect { |station| station.name == name }
+    station = route.stations.detect { |s| s.name == name }
     route.delete(station)
 
     output("Станция #{station.info} удалена из маршрута")
