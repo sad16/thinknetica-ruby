@@ -15,8 +15,13 @@ class Train
 
   strong_attr_accessor :number, String
 
-  validate :number, :presence
-  validate :number, :format, NUMBER_PATTERN
+  validate :number, presence: true,
+                    format: NUMBER_PATTERN
+
+  # or
+
+  # validate :number, presence: true
+  # validate :number, format: NUMBER_PATTERN
 
   def initialize(number)
     @number = number && number.upcase

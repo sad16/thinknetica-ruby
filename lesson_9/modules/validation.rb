@@ -5,30 +5,15 @@ module Validation
   end
 
   module ClassMethods
-    def validate(name, type, value = nil)
-      send("#{type}_validate".to_sym, name, value)
+    def validations
+      @validations ||= {}
     end
 
-    private
-
-    def presence_validate(name, _value)
-      define_method("#{name}_presence_validate") do
-        instance_variable = instance_variable_get("@#{name}".to_sym)
-        raise "Название не может быть пустым" if instance_variable.nil? || instance_variable.empty?
-      end
-    end
-
-    def format_validate(name, value)
-      define_method("#{name}_format_validate") do
-        instance_variable = instance_variable_get("@#{name}".to_sym)
-        raise "Название должно содержать минимум 4 символа" if instance_variable !~ value
-      end
-    end
-
-    def type_validate(name, value)
-      define_method("#{name}_type_validate") do
-        instance_variable = instance_variable_get("@#{name}".to_sym)
-        raise "Типы не совпадают" unless instance_variable.class == value
+    def validate(name, options = {})
+      if validations[name]
+        validations[name].merge!(options)
+      else
+        validations[name] = options
       end
     end
   end
@@ -44,14 +29,29 @@ module Validation
     protected
 
     def validate!
-      types = %w(presence format type)
-      instance_variables.each do |variable|
-        variable_name = variable.to_s.delete("@")
-        types.each do |type|
-          method_name = "#{variable_name}_#{type}_validate".to_sym
-          send(method_name) if respond_to?(method_name)
+      self.class.validations.each do |name, options|
+        options.each do |type, value|
+          validate_method_name = "#{type}_validate!".to_sym
+          send(validate_method_name, name, value)
         end
       end
+    end
+
+    def presence_validate!(name, value)
+      return unless value
+
+      instance_variable = instance_variable_get("@#{name}".to_sym)
+      raise "#{name} не может быть пустым" if instance_variable.nil? || instance_variable.empty?
+    end
+
+    def format_validate!(name, value)
+      instance_variable = instance_variable_get("@#{name}".to_sym)
+      raise "#{name} имеет неверный формат" if instance_variable !~ value
+    end
+
+    def type_validate!(name, value)
+      instance_variable = instance_variable_get("@#{name}".to_sym)
+      raise "#{name} имеет неверный тип" unless instance_variable.class == value
     end
   end
 end

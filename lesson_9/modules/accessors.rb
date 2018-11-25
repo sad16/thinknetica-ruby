@@ -43,4 +43,4 @@ module Accessors
       instance_variable_set("@#{name}".to_sym, value)
     end
   end
- end
+end

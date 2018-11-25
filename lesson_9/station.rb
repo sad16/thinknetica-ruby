@@ -11,9 +11,15 @@ class Station
 
   attr_accessor_with_history :name
 
-  validate :name, :presence
-  validate :name, :format, /[а-яa-z]{4}+/i
-  validate :name, :type, String
+  validate :name, presence: true,
+                  format: /[а-яa-z]{4}+/i,
+                  type: String
+
+  # or
+
+  # validate :name, presence: true
+  # validate :name, format: /[а-яa-z]{4}+/i
+  # validate :name, type: String
 
   def initialize(name)
     @name = name && name.capitalize
