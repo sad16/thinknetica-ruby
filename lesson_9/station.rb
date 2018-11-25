@@ -1,11 +1,19 @@
 require_relative 'modules/instance_counter'
 require_relative 'modules/validation'
+require_relative 'modules/accessors'
 
 class Station
   include InstanceCounter
   include Validation
+  extend Accessors
 
-  attr_reader :name, :trains
+  attr_reader :trains
+
+  attr_accessor_with_history :name
+
+  validate :name, :presence
+  validate :name, :format, /[а-яa-z]{4}+/i
+  validate :name, :type, String
 
   def initialize(name)
     @name = name && name.capitalize
@@ -41,10 +49,10 @@ class Station
     trains.each.with_index(1) { |train, index| yield(train, index) }
   end
 
-  protected
+  # protected
 
-  def validate!
-    raise "Название не может быть пустым" if name.empty?
-    raise "Название должно содержать минимум 4 символа" if name.size < 4
-  end
+  # def validate!
+  #   raise "Название не может быть пустым" if name.empty?
+  #   raise "Название должно содержать минимум 4 символа" if name.size < 4
+  # end
 end

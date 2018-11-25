@@ -1,15 +1,22 @@
 require_relative 'modules/instance_counter'
 require_relative 'modules/company'
 require_relative 'modules/validation'
+require_relative 'modules/accessors'
 
 class Train
   include InstanceCounter
   include Company
   include Validation
+  extend Accessors
 
   NUMBER_PATTERN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i.freeze
 
-  attr_reader :number, :wagons, :route, :current_station
+  attr_reader :wagons, :route, :current_station
+
+  strong_attr_accessor :number, String
+
+  validate :number, :presence
+  validate :number, :format, NUMBER_PATTERN
 
   def initialize(number)
     @number = number && number.upcase
@@ -110,8 +117,8 @@ class Train
   attr_accessor :speed
   attr_writer :wagons, :route, :current_station
 
-  def validate!
-    raise "Номер не может быть пустым" if number.empty?
-    raise "Номер имеет не правильный формат" if number !~ NUMBER_PATTERN
-  end
+  # def validate!
+  #   raise "Номер не может быть пустым" if number.empty?
+  #   raise "Номер имеет не правильный формат" if number !~ NUMBER_PATTERN
+  # end
 end
